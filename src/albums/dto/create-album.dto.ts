@@ -31,5 +31,5 @@ export class CreateAlbumDto {
   @IsNumber()
   @Min(0)
   @Max(5)
-  reviewScore: number;
+  score: number;
 }

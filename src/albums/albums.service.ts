@@ -14,7 +14,7 @@ export class AlbumsService {
       title: 'Temple Of Shadows',
       year: 2004,
       gender: AlbumGender.METAL,
-      reviewScore: 4.6,
+      score: 4.6,
     },
     {
       id: '9190326e-f371-4251-b24c-2a9333bfb982',
@@ -22,7 +22,7 @@ export class AlbumsService {
       title: 'Ritual',
       year: 2001,
       gender: AlbumGender.METAL,
-      reviewScore: 4.2,
+      score: 4.2,
     },
     {
       id: 'ec15b4fd-3db1-4c88-9dc1-f8c2686f4300',
@@ -30,7 +30,7 @@ export class AlbumsService {
       title: 'IV',
       year: 1971,
       gender: AlbumGender.ROCK,
-      reviewScore: 4.7,
+      score: 4.7,
     },
     {
       id: '85c4d7ac-d3a5-40bb-aa50-a80149faff6a',
@@ -38,7 +38,7 @@ export class AlbumsService {
       title: 'Slippery When Wet',
       year: 1986,
       gender: AlbumGender.ROCK,
-      reviewScore: 4.5,
+      score: 4.5,
     },
     {
       id: '210e61a5-2c78-468f-9483-1ee655b04991',
@@ -46,7 +46,7 @@ export class AlbumsService {
       title: 'Fear Of The Dark',
       year: 1992,
       gender: AlbumGender.METAL,
-      reviewScore: 4.4,
+      score: 4.4,
     },
   ];
 
@@ -81,8 +81,10 @@ export class AlbumsService {
     this.albums.splice(this.albums.indexOf(albumToBeDeleted), 1);
   }
 
-  public updateAlbumReview(id: string, score: number): AlbumDto {
-    return { ...this.getAlbum(id), reviewScore: score };
+  public updateAlbumScore(id: string, score: number): AlbumDto {
+    const albumToBeUpdated = this.getAlbum(id);
+    albumToBeUpdated.score = score;
+    return albumToBeUpdated;
   }
 
   private filterByGender(album: AlbumDto, gender: AlbumGender): boolean {

@@ -6,5 +6,5 @@ export class AlbumDto {
   author: string;
   year: number;
   gender: AlbumGender;
-  reviewScore: number;
+  score: number;
 }

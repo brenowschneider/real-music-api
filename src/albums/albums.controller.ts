@@ -43,6 +43,6 @@ export class AlbumsController {
     @Param('id') id: string,
     @Body('score') score: number,
   ): AlbumDto {
-    return this.albumsService.updateAlbumReview(id, score);
+    return this.albumsService.updateAlbumScore(id, score);
   }
 }
