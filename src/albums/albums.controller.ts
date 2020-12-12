@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 import { AlbumSearchDto } from './dto/album-search.dto';
@@ -28,7 +29,7 @@ export class AlbumsController {
   }
 
   @Post()
-  public createAlbum(@Body() album: CreateAlbumDto): AlbumDto {
+  public createAlbum(@Body(ValidationPipe) album: CreateAlbumDto): AlbumDto {
     return this.albumsService.createAlbum(album);
   }
 
