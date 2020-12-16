@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -18,31 +19,31 @@ import { CreateAlbumDto } from './dto/create-album.dto';
 export class AlbumsController {
   constructor(private albumsService: AlbumsService) {}
 
-  @Get()
-  public getAlbums(@Query() albumSearchDto: AlbumSearchDto): Array<AlbumDto> {
-    return this.albumsService.getAlbums(albumSearchDto);
-  }
-
   @Get('/:id')
-  public getAlbum(@Param('id') id: string): AlbumDto {
+  public async getAlbum(@Param('id', ParseIntPipe) id: number): Promise<AlbumDto> {
     return this.albumsService.getAlbum(id);
   }
 
+  @Get()
+  public async getAlbums(@Query() albumSearchDto: AlbumSearchDto): Promise<Array<AlbumDto>> {
+    return await this.albumsService.getAlbums(albumSearchDto);
+  }
+
   @Post()
-  public createAlbum(@Body(ValidationPipe) album: CreateAlbumDto): AlbumDto {
-    return this.albumsService.createAlbum(album);
+  public async createAlbum(@Body(ValidationPipe) album: CreateAlbumDto): Promise<AlbumDto> {
+    return await this.albumsService.createAlbum(album);
   }
 
   @Delete('/:id')
-  public deleteAlbum(@Param('id') id: string) {
-    this.albumsService.deleteAlbum(id);
+  public async deleteAlbum(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.albumsService.deleteAlbum(id);
   }
 
   @Patch('/:id/score')
-  public updateAlbumScore(
-    @Param('id') id: string,
+  public async updateAlbumScore(
+    @Param('id', ParseIntPipe) id: number,
     @Body('score') score: number,
-  ): AlbumDto {
-    return this.albumsService.updateAlbumScore(id, score);
+  ): Promise<AlbumDto> {
+    return await this.albumsService.updateAlbumScore(id, score);
   }
 }

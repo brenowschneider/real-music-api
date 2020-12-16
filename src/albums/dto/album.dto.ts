@@ -1,7 +1,7 @@
 import { AlbumGender } from '../enums/album-gender.enum';
 
 export class AlbumDto {
-  id: string
+  id: number
   title: string;
   author: string;
   year: number;
