@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AlbumGender } from '../enums/album-gender.enum';
+import { Review } from './review.entity';
 
 @Entity()
 export class Album extends BaseEntity {
@@ -21,4 +22,8 @@ export class Album extends BaseEntity {
   
   @Column({type: 'real'})
   score: number;
+
+  @OneToMany(() => Review, review => review.album)
+  reviews: Review[];
+
 }

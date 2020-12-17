@@ -1,8 +1,8 @@
 import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
-import { AlbumSearchDto } from './dto/album-search.dto';
-import { CreateAlbumDto } from './dto/create-album.dto';
-import { Album } from './entities/album.entity';
-import { AlbumGender } from './enums/album-gender.enum';
+import { AlbumSearchDto } from '../dto/album-search.dto';
+import { CreateAlbumDto } from '../dto/create-album.dto';
+import { Album } from '../entities/album.entity';
+import { AlbumGender } from '../enums/album-gender.enum';
 
 @EntityRepository(Album)
 export class AlbumRepository extends Repository<Album> {

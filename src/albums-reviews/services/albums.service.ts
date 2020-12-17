@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AlbumDto } from './dto/album.dto';
-import { CreateAlbumDto } from './dto/create-album.dto';
-import { AlbumSearchDto } from './dto/album-search.dto';
-import { AlbumRepository } from './album.repository';
+import { AlbumDto } from '../dto/album.dto';
+import { CreateAlbumDto } from '../dto/create-album.dto';
+import { AlbumSearchDto } from '../dto/album-search.dto';
+import { AlbumRepository } from '../repositories/album.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()

@@ -10,10 +10,10 @@ import {
   Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { AlbumsService } from './albums.service';
-import { AlbumSearchDto } from './dto/album-search.dto';
-import { AlbumDto } from './dto/album.dto';
-import { CreateAlbumDto } from './dto/create-album.dto';
+import { AlbumsService } from '../services/albums.service';
+import { AlbumSearchDto } from '../dto/album-search.dto';
+import { AlbumDto } from '../dto/album.dto';
+import { CreateAlbumDto } from '../dto/create-album.dto';
 
 @Controller('albums')
 export class AlbumsController {
