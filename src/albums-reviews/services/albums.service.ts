@@ -4,6 +4,7 @@ import { CreateAlbumDto } from '../dto/create-album.dto';
 import { AlbumSearchDto } from '../dto/album-search.dto';
 import { AlbumRepository } from '../repositories/album.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AlbumDetailsDto } from '../dto/album-details.dto';
 
 @Injectable()
 export class AlbumsService {
@@ -23,8 +24,8 @@ export class AlbumsService {
     //   .filter((album) => this.filterByGender(album, gender));
   }
 
-  public async getAlbum(id: number): Promise<AlbumDto> {
-    return { ...(await this.getAlbumFromRepository(id)) };
+  public async getAlbum(id: number): Promise<AlbumDetailsDto> {
+    return { ...(await this.getAlbumWithReviewsFromRepository(id)) };
   }
 
   public async createAlbum(album: CreateAlbumDto): Promise<AlbumDto> {
@@ -42,6 +43,19 @@ export class AlbumsService {
     const albumToBeUpdated = await this.getAlbumFromRepository(id);
     albumToBeUpdated.score = score;
     return { ...(await albumToBeUpdated.save()) };
+  }
+
+  private async getAlbumWithReviewsFromRepository(id: number) {
+    const albumFromRepository = await this.albumRepository.findOne({
+      where: {id: id},
+      relations: ['reviews']
+    });
+
+    if (!albumFromRepository) {
+      throw new NotFoundException(`Album with id '${id}' was not found`);
+    }
+
+    return albumFromRepository;
   }
 
   private async getAlbumFromRepository(id: number) {

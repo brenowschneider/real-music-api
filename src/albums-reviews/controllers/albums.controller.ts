@@ -14,13 +14,14 @@ import { AlbumsService } from '../services/albums.service';
 import { AlbumSearchDto } from '../dto/album-search.dto';
 import { AlbumDto } from '../dto/album.dto';
 import { CreateAlbumDto } from '../dto/create-album.dto';
+import { AlbumDetailsDto } from '../dto/album-details.dto';
 
 @Controller('albums')
 export class AlbumsController {
   constructor(private albumsService: AlbumsService) {}
 
   @Get('/:id')
-  public async getAlbum(@Param('id', ParseIntPipe) id: number): Promise<AlbumDto> {
+  public async getAlbum(@Param('id', ParseIntPipe) id: number): Promise<AlbumDetailsDto> {
     return this.albumsService.getAlbum(id);
   }
 
