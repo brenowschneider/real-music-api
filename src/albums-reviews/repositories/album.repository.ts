@@ -16,7 +16,7 @@ export class AlbumRepository extends Repository<Album> {
     this.addSearchFilter(search, query);
     this.addGenderFilter(gender, query);
 
-    return await query.getMany();
+    return await query.leftJoinAndSelect('album.reviews', 'reviews').getMany();
   }
 
   public async createAlbum(album: CreateAlbumDto): Promise<Album> {
