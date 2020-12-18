@@ -5,6 +5,8 @@ import { AlbumSearchDto } from '../dto/album-search.dto';
 import { AlbumRepository } from '../repositories/album.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AlbumDetailsDto } from '../dto/album-details.dto';
+import { Review } from '../entities/review.entity';
+import { Album } from '../entities/album.entity';
 
 @Injectable()
 export class AlbumsService {
@@ -16,20 +18,17 @@ export class AlbumsService {
   public async getAlbums(
     albumSearchDto: AlbumSearchDto,
   ): Promise<Array<AlbumDto>> {
-
-    return await this.albumRepository.getAlbums(albumSearchDto);
-
-    // return this.albums
-    //   .filter((album) => this.filterBySearch(album, search))
-    //   .filter((album) => this.filterByGender(album, gender));
+    return (await this.albumRepository.getAlbums(albumSearchDto)).map((album) =>
+      this.mapFromAlbumToAlbumDto(album),
+    );
   }
 
   public async getAlbum(id: number): Promise<AlbumDetailsDto> {
-    return { ...(await this.getAlbumWithReviewsFromRepository(id)) };
+    return this.mapFromAlbumToAlbumDetailsDto(await this.getAlbumWithReviewsFromRepository(id));
   }
 
   public async createAlbum(album: CreateAlbumDto): Promise<AlbumDto> {
-    return await this.albumRepository.createAlbum(album);
+    return this.mapFromAlbumToAlbumDto(await this.albumRepository.createAlbum(album));
   }
 
   public async deleteAlbum(id: number): Promise<void> {
@@ -39,16 +38,10 @@ export class AlbumsService {
     }
   }
 
-  public async updateAlbumScore(id: number, score: number): Promise<AlbumDto> {
-    const albumToBeUpdated = await this.getAlbumFromRepository(id);
-    albumToBeUpdated.score = score;
-    return { ...(await albumToBeUpdated.save()) };
-  }
-
   private async getAlbumWithReviewsFromRepository(id: number) {
     const albumFromRepository = await this.albumRepository.findOne({
-      where: {id: id},
-      relations: ['reviews']
+      where: { id: id },
+      relations: ['reviews'],
     });
 
     if (!albumFromRepository) {
@@ -66,5 +59,25 @@ export class AlbumsService {
     }
 
     return albumFromRepository;
+  }
+
+  private mapFromAlbumToAlbumDto(album: Album): AlbumDto {
+    let numberOfReviews = 0;
+    let score = 0;
+
+    if (album.reviews?.length > 0) {
+      numberOfReviews = album.reviews.length;
+      score =
+        +(album.reviews.reduce(
+          (accumulator: number, review: Review) => accumulator + +review.score,
+          0,
+        ) / numberOfReviews).toFixed(2);
+    }
+
+    return { ...album, score: score, numberOfReviews: numberOfReviews };
+  }
+
+  private mapFromAlbumToAlbumDetailsDto(album: Album): AlbumDetailsDto {
+    return { ...this.mapFromAlbumToAlbumDto(album), reviews: album.reviews };
   }
 }

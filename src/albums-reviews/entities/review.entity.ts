@@ -13,7 +13,7 @@ export class Review extends BaseEntity {
   @Column()
   description: string
 
-  @Column({type: 'real'})
+  @Column({type: 'decimal'})
   score: number;
 
   @ManyToOne(() => Album, album => album.reviews)

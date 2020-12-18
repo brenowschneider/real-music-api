@@ -39,12 +39,4 @@ export class AlbumsController {
   public async deleteAlbum(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.albumsService.deleteAlbum(id);
   }
-
-  @Patch('/:id/score')
-  public async updateAlbumScore(
-    @Param('id', ParseIntPipe) id: number,
-    @Body('score') score: number,
-  ): Promise<AlbumDto> {
-    return await this.albumsService.updateAlbumScore(id, score);
-  }
 }
