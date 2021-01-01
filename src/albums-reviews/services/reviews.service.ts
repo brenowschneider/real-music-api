@@ -5,7 +5,6 @@ import { ReviewDto } from '../dto/review.dto';
 import { Review } from '../entities/review.entity';
 import { AlbumRepository } from '../repositories/album.repository';
 import { ReviewsRepository } from '../repositories/reviews.repository';
-import { AlbumsService } from './albums.service';
 
 @Injectable()
 export class ReviewsService {

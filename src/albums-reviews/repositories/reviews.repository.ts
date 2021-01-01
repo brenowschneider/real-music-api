@@ -1,10 +1,7 @@
-import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
-import { AlbumSearchDto } from '../dto/album-search.dto';
-import { CreateAlbumDto } from '../dto/create-album.dto';
+import { EntityRepository, Repository } from 'typeorm';
 import { CreateReviewDto } from '../dto/create-review.dto';
 import { Album } from '../entities/album.entity';
 import { Review } from '../entities/review.entity';
-import { AlbumGender } from '../enums/album-gender.enum';
 
 @EntityRepository(Review)
 export class ReviewsRepository extends Repository<Review> {
@@ -17,7 +14,7 @@ export class ReviewsRepository extends Repository<Review> {
     reviewedAlbum: Album,
   ): Promise<Review> {
     const newReview = new Review();
-    Object.assign(newReview, review, { album: reviewedAlbum });
+    Object.assign(newReview, review, {date: new Date()}, { album: reviewedAlbum });
     return await newReview.save();
   }
 }

@@ -16,6 +16,9 @@ export class Review extends BaseEntity {
   @Column({type: 'decimal'})
   score: number;
 
+  @Column()
+  date: Date;
+
   @ManyToOne(() => Album, album => album.reviews)
   album: Album;
 }
